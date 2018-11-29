@@ -1,6 +1,6 @@
 # Guietzli
-## v1.0
-Copyright (C) 2017, Petros Kyladitis  
+## v1.1
+Copyright (C) 2017-2018, Petros Kyladitis  
 
 ## Description
 An MS Windows graphic front-end for the [Google Guetzli JPEG Encoder](https://github.com/google/guetzli).  
@@ -12,7 +12,10 @@ Google provide a command line tool for the Guetzli encoder, although with this W
 For updates and more info see at <http://multipetros.gr/>  
 
 ## Requirements
-This program is designed for MS Windows with [.NET Framework 3.5](http://www.microsoft.com/el-gr/download/details.aspx?id=22) installed.
+This program is designed for MS Windows with [.NET Framework 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653) installed.
+
+## Screenshots
+![Screenshot](https://raw.githubusercontent.com/multipetros/Guietzli/master/screenshot.png)
 
 ## Usage
 - Starting, add images files to the queue list by pressing the __Add Files__ button, __Drag-n-drop__ files from Desktop or Windows Explorer.
@@ -23,6 +26,16 @@ This program is designed for MS Windows with [.NET Framework 3.5](http://www.mic
 - Please be patient. The Guetzli encoder gets a significant lot of time _(and memory)_ to do the encoding.
 - If you want to interrupt the process, you can press the __Stop__ button.
 
+## Download
+ * [Setup package](https://github.com/multipetros/Guietzli/releases/download/v1.1/guietzli_1.1-setup.exe)
+ * [Portable in zip archive](https://github.com/multipetros/Guietzli/releases/download/v1.1/guietzli_1.1-bin.zip)
+
+## Change Log
+### v1.1
+ * Moved to .NET Framework 4.5, to be compatible, the encoder download functionality, with TLS 1.2 which now used by GitHub
+### v1.0
+ * Initial release
+ 
 ## License
 This program is free software distributed under the GNU GPL 3, for license details see at `license.txt` file, distributed with this program, or see at <http://www.gnu.org/licenses/>.  
 

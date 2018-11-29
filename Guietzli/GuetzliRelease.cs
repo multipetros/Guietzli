@@ -17,7 +17,11 @@ namespace Guietzli{
 	/// </summary>
 	public class GuetzliRelease	{
 		
-		private readonly string EXE_NAME = "guetzli.exe" ;
+		private const string PROJECT_PAGE = "https://github.com/google/guetzli/releases/latest" ;
+		private const string LOCAL_X64_SYS_FOLDER = "SysWOW64" ;
+		private const string REMOTE_X86_NAME = "/guetzli_windows_x86.exe" ;
+		private const string REMOTE_X64_NAME = "/guetzli_windows_x86-64.exe" ;
+		private readonly string LOCAL_EXE_NAME = "guetzli.exe" ;
 		
 		/// <summary>
 		/// Empty class contructor
@@ -26,7 +30,7 @@ namespace Guietzli{
 		
 		public string ExeName{
 			get{
-				return this.EXE_NAME ;
+				return this.LOCAL_EXE_NAME ;
 			}
 		}
 		
@@ -38,30 +42,32 @@ namespace Guietzli{
 		/// <summary>
 		/// Find the latest Guetzli's release URL or version tag.
 		/// </summary>
-		/// <param name="returnDownloadUrl">True to return download url, false to return version tag only</param>
+		/// <param name="info">What to retrieve. URL or latest version string.</param>
 		/// <returns>Download url (without filename), or version tag (x.y.z)</returns>
 		public string GetLatestRelease(ReleaseInfo info){
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 ;
 			//the github.com/usr/project/releases/latest redirects always to the latest release page, which contains the
 			//version tag and the download url (partial). Capturing the HTTP Header location we can find these info.
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://github.com/google/guetzli/releases/latest");
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(PROJECT_PAGE);
 			request.AllowAutoRedirect = false;
 			HttpWebResponse response ;
 			string redirUrl ;
 			try {				
 				response = (HttpWebResponse)request.GetResponse();				
-				redirUrl = response.Headers["Location"];								
+				redirUrl = response.Headers["Location"];
 				response.Close();
 			} catch (Exception) {
 				return "" ;
 			}
 			
-			if(info == ReleaseInfo.DownloadUrl)
+			if(info == ReleaseInfo.DownloadUrl){
 				return redirUrl.Replace("tag", "download") ;
-			
-			//split the url, get the last part (wich contains the ver. tag), remove the v from the begin & return the version
-			string[] redirUrlParts = redirUrl.Split('/') ;
-			string latestVer = redirUrlParts[redirUrlParts.Length - 1] ;
-			return latestVer.Substring(1) ;		
+			}else{			
+				//split the url, get the last part (wich contains the ver. tag), remove the v from the begin & return the version
+				string[] redirUrlParts = redirUrl.Split('/') ;
+				string latestVer = redirUrlParts[redirUrlParts.Length - 1] ;
+				return latestVer.Substring(1) ;
+			}
 		}
 		
 		/// <summary>
@@ -123,14 +129,14 @@ namespace Guietzli{
 			WebClient client = new WebClient() ;
 			string downloadUrl = GetLatestRelease(ReleaseInfo.DownloadUrl) ;
 			//if %WINDIR%/SysWOW64 exist that discloses x64 OS installation
-			string syswow64 = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).ToString(), "SysWOW64") ;
+			string syswow64 = Path.Combine(Directory.GetParent(Environment.GetFolderPath(Environment.SpecialFolder.System)).ToString(), LOCAL_X64_SYS_FOLDER) ;
 			if(Directory.Exists(syswow64)){
-				downloadUrl += "/guetzli_windows_x86-64.exe" ;
+				downloadUrl += REMOTE_X64_NAME ;
 			}else{
-				downloadUrl += "/guetzli_windows_x86.exe" ;
+				downloadUrl += REMOTE_X86_NAME ;
 			}
-			try {				
-				client.DownloadFile(downloadUrl, "guetzli.exe") ;
+			try {	
+				client.DownloadFile(downloadUrl, LOCAL_EXE_NAME) ;
 				return true ;
 			} catch (Exception) {
 				return false ;

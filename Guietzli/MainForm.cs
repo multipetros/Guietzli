@@ -378,7 +378,7 @@ namespace Guietzli{
 		}
 		
 		void AboutToolStripMenuItemClick(object sender, EventArgs e){
-			MessageBox.Show("Guietzli v1.0\nA Graphic front-end for Guetzli JPEG Encoder\n\nCopyright (c) 2017, Petros Kyladitis\n<http://www.multipetros.gr/>\n\nThis program is free software distributed under the GNU GPL 3, for license details see at 'license.txt' file, distributed with this program, or see at <http://www.gnu.org/licenses/>.", "About this program", MessageBoxButtons.OK, MessageBoxIcon.Information) ;
+			MessageBox.Show("Guietzli v1.1\nA Graphic front-end for Guetzli JPEG Encoder\n\nCopyright (c) 2017-2018, Petros Kyladitis\n<http://www.multipetros.gr/>\n\nThis program is free software distributed under the GNU GPL 3, for license details see at 'license.txt' file, distributed with this program, or see at <http://www.gnu.org/licenses/>.", "About this program", MessageBoxButtons.OK, MessageBoxIcon.Information) ;
 		}
 	}
 }
